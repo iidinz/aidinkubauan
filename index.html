@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aidinKUBAUAN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo-link {
+            text-decoration: none; /* ลบขีดเส้นใต้ */
+            color: inherit; /* ใช้สีตัวอักษรที่สืบทอดมา (จาก .logo) */
+            display: flex; /* เพื่อจัดตำแหน่งภายใน */
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+            border-bottom: none; /* เพื่อความมั่นใจว่าไม่มี border-bottom */
+        }
+        
+        .logo-link:hover {
+            color: #b91c1c; /* เปลี่ยนสีเมื่อเมาส์ชี้ (ถ้าต้องการ) */
+        }
+
+        /* แก้ไข .logo เพื่อให้แน่ใจว่าไม่มีเส้นใต้ */
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #dc2626; /* สีตัวอักษร aidinHUB */
+            text-decoration: none; /* ลบเส้นใต้ที่อาจจะมาจากการสืบทอด */
+            border-bottom: none; /* ลบ border-bottom ที่อาจจะมาจากการสืบทอด */
+        }
+        
+        /* แก้ไข .logo::before ให้แสดงหัวใจสีแดง/ชมพู */
+        .logo::before {
+            content: "❤️"; /* นี่คืออีโมจิหัวใจสีแดง/ชมพู */
+            background: none; /* ลบพื้นหลังสีขาวออก */
+            color: initial; /* ใช้สีเริ่มต้นของอีโมจิ (แดง/ชมพู) */
+            /* หรือถ้าอยากมีวงกลมสีขาวรองรับหัวใจ: */
+            /* background: white; */
+            /* border-radius: 50%; */
+            /* padding: 5px; */
+
+            width: 40px;
+            height: 30px; /* อาจจะต้องปรับค่า height นี้ให้พอดีกับขนาดหัวใจ */
+            border-radius: 50%; /* อันนี้อาจจะไม่จำเป็นถ้า background: none */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 2.2rem;
+        }
+
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #dc2626;
+        }
+
+        .location-badge {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 4rem 0;
+        }
+
+        .hero-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            min-height: 500px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-text .highlight {
+            color: #dc2626;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .facility-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .facility-tag {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-illustration {
+            width: 350px;
+            height: 350px;
+            border: 3px solid #dc2626;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fee2e2 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-illustration::before {
+            content: "🏟️";
+            font-size: 4rem;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            animation: pulse 2s infinite;
+        }
+
+        .map-illustration::after {
+            content: "🌳";
+            font-size: 3rem;
+            position: absolute;
+            bottom: 25%;
+            right: 25%;
+            animation: pulse 2s infinite 0.5s;
+        }
+
+        .map-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #dc2626;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        .dot:nth-child(1) { top: 30%; left: 60%; animation-delay: 0s; }
+        .dot:nth-child(2) { top: 60%; left: 30%; animation-delay: 0.3s; }
+        .dot:nth-child(3) { top: 70%; left: 70%; animation-delay: 0.6s; }
+        .dot:nth-child(4) { top: 40%; left: 80%; animation-delay: 0.9s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+            border: 1px solid #fee2e2;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.1);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 0;
+            background: #f9fafb;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #dc2626;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn-white {
+            background: white;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .btn-white:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .map-illustration {
+                width: 250px;
+                height: 250px;
+            }
+
+            .map-illustration::before {
+                font-size: 2.5rem;
+            }
+
+            .map-illustration::after {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link"> 
+            <div class="logo">aidinKUBAUAN</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="service_area.html">แผนที่ Service Area</a></li>
+                    <li><a href="sport_center.html">ศูนย์กีฬา</a></li>
+                    <li><a href="public_park.html">สวนสาธารณะ</a></li>            
+                </ul>
+            </nav>
+            <div class="location-badge">เชียงราย</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <h1>บริการการเข้าถึง<br><span class="highlight">ศูนย์กีฬาและสวนสาธารณะ</span><br>จังหวัดเชียงราย</h1>
+                <p>ศึกษาและวิเคราะห์การกระจุกตัวและการกระจายตัวของสถานที่ออกกำลังกายและสวนสาธารณะ เพื่อการวางแผนพัฒนาเมือง</p>
+                
+            </div>
+          <div class="hero-visual">
+                <div class="data-studio-container">
+                    <iframe  width="600" height="300"
+                        class="data-studio-iframe"
+                        src="https://lookerstudio.google.com/embed/reporting/5ee44801-c668-4e48-b1a2-067431935d44/page/5PnMF" 
+                        frameborder="0" 
+                        style="border:0" 
+                        allowfullscreen 
+                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">🏀</div>
+                    <div class="stat-number">36</div>
+                    <div class="stat-label">ศูนย์กีฬาและสนามกีฬา</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌳</div>
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">สวนสาธารณะ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🚊</div>
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">สถานีขนส่ง</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-container">
+                <h2 class="section-title">ออกกำลังกาย อะไรดี ?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏸</div>
+                        <h3>ตีแบด</h3>
+                        <p>ช่วยพัฒนาความคล่องแคล่ว ความไว และการประสานงานระหว่างมือ-ตา เผาผลาญแคลอรี่สูง เพิ่มสมรรถภาพหัวใจและหลอดเลือด</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚽️</div>
+                        <h3>เตะบอล</h3>
+                        <p>เสริมสร้างความแข็งแรงของกล้ามเนื้อขาและสะโพก ฝึกความสามัคคีและทักษะการทำงานเป็นทีม</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⛳️</div>
+                        <h3>ตีกอล์ฟ</h3>
+                        <p>ฝึกสมาธิ คลายเครียด และพัฒนาการเคลื่อนไหวของร่างกาย เดินในสนามเขียวช่วยกระตุ้นการเคลื่อนไหวอย่างอ่อนโยน</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚴‍♀️</div>
+                        <h3>ปั่นจักรยาน</h3>
+                        <p>เสริมสร้างความแข็งแรงของกล้ามเนื้อขา เป็นกิจกรรมกลางแจ้ง ช่วยชมวิวธรรมชาติในสวนสาธารณะและลดความเครียด</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤾‍♀️</div>
+                        <h3>วิ่ง</h3>
+                        <p>พัฒนาความอึด ความอดทน และเผาผลาญไขมันได้ดี ระตุ้นระบบหัวใจและหลอดเลือดอีกทั้งช่วยเสริมสร้างกระดูกให้แข็งแรง</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏊‍♀️</div>
+                        <h3>ว่ายน้ำ</h3>
+                        <p>ออกกำลังได้ทุกกลุ่มกล้ามเนื้อ โดยไม่กระทบข้อต่อ ช่วยเพิ่มความยืดหยุ่น ปรับปรุงความแข็งแรงของหัวใจและปอด</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-container">
+                <h2>เริ่มสำรวจแผนที่</h2>
+                <p>การเข้าถึงศูนย์กีฬาและสวนสาธารณะในจังหวัดเชียงราย</p>
+                <a href="service_area.html" class="btn btn-white">ดูแผนที่เต็ม</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simple animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling for navigation links
+            const navLinks = document.querySelectorAll('.nav-menu a');
+          navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        // เช็กว่าลิงก์นี้คือ service_area.html หรือไม่
+        if (this.getAttribute('href') === 'service_area.html') {
+            return;
+        }
+        // สำหรับลิงก์อื่น (scroll ในหน้าเดียวกัน) ให้ preventDefault ตามเดิม
+        this.style.color = '#dc2626';
+        setTimeout(() => {
+            this.style.color = '';
+        }, 300);
+    });
+});
+
+            // Add hover effects to cards
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add click animation to CTA button
+            const ctaButton = document.querySelector('.btn-white');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', function(e) {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    console.log('ดูแผนที่เต็ม - เปิดแผนที่หลัก');
+                });
+            }
+
+            // Animate numbers on scroll (simple version)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const number = entry.target;
+                        const finalNumber = parseInt(number.textContent);
+                        let currentNumber = 0;
+                        const increment = finalNumber / 30;
+                        
+                        const timer = setInterval(() => {
+                            currentNumber += increment;
+                            if (currentNumber >= finalNumber) {
+                                number.textContent = finalNumber;
+                                clearInterval(timer);
+                            } else {
+                                number.textContent = Math.floor(currentNumber);
+                            }
+                        }, 50);
+                        
+                        observer.unobserve(number);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.stat-number').forEach(number => {
+                observer.observe(number);
+            });
+        });
+    </script>
+</body>
+</html>
